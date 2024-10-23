@@ -1,0 +1,26 @@
+# Ignore node_modules
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Ignore local environment files
+.env
+
+# Ignore Docker-related files
+.dockerignore
+Dockerfile
+
+# Ignore logs
+logs
+*.log
+
+# Ignore temporary files
+tmp
+*.tmp
+
+# Ignore editor config and metadata
+*.swp
+*.swo
+*.idea
+*.vscode
+*.DS_Store
