@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@54.82.123.223 '
-            cd /home/ubuntu/my-node-sequelize-app
+            cd /home/ubuntu/node-hello
             git pull origin main
             npm install
             pm2 restart all
