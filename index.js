@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const Redis = require('ioredis'); // Import ioredis
 
 const app = express();
@@ -18,6 +18,39 @@ const sequelize = new Sequelize(
   }
 );
 
+// Test database connection
+sequelize.authenticate()
+  .then(() => console.log('Database connected...'))
+  .catch(err => console.log('Error: ' + err));
+
+const User = sequelize.define(
+  'User',
+  {
+    // Model attributes are defined here
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4
+    },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      // allowNull defaults to true
+    },
+  },
+  {
+    // Other model options go here
+  },
+);
+
+// // Sync all models that are not already in the database
+sequelize.sync({alter: true})
+  .then(() => console.log('Models synced...'))
+  .catch(err => console.log('Error: ' + err));
+
 // // Connect to Redis
 const redis = new Redis({
   host: process.env.REDIS_HOST,
@@ -30,17 +63,18 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.get('/user', (req, res) => {
-  res.send({
-    name: 'Baby corner corner',
-    email: 'just dey play'
+app.get('/user/add', async (req, res) => {
+  const user = await User.create({
+    firstName: 'John',
+    lastName: 'Doe'
   });
+  res.json(user);
 });
 
-// Test database connection
-sequelize.authenticate()
-  .then(() => console.log('Database connected...'))
-  .catch(err => console.log('Error: ' + err));
+app.get('/user', async (req, res) => {
+  const user = await User.findAll();
+  res.json(user);
+});
 
 // // Test Redis connection
 redis.ping()
