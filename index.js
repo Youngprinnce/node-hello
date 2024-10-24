@@ -30,6 +30,13 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+app.get('/user', (req, res) => {
+  res.send({
+    name: 'John Doe',
+    email: 'me@gmail.com'
+  });
+});
+
 // Test database connection
 // sequelize.authenticate()
 //   .then(() => console.log('Database connected...'))
