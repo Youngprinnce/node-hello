@@ -32,8 +32,8 @@ app.get('/', (req, res) => {
 
 app.get('/user', (req, res) => {
   res.send({
-    name: 'John Doe',
-    email: 'me@gmail.com'
+    name: 'Baby corner corner',
+    email: 'just dey play'
   });
 });
 
