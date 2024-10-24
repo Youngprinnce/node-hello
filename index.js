@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { Sequelize } = require('sequelize');
-// const Redis = require('ioredis'); // Import ioredis
+const Redis = require('ioredis'); // Import ioredis
 
 const app = express();
 const port = process.env.APP_PORT || 3000;
@@ -19,11 +19,11 @@ const sequelize = new Sequelize(
 );
 
 // // Connect to Redis
-// const redis = new Redis({
-//   host: process.env.REDIS_HOST,
-//   port: process.env.REDIS_PORT,
-//   db: process.env.REDIS_DB
-// });
+const redis = new Redis({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  db: process.env.REDIS_DB
+});
 
 // Simple route
 app.get('/', (req, res) => {
@@ -43,9 +43,9 @@ sequelize.authenticate()
   .catch(err => console.log('Error: ' + err));
 
 // // Test Redis connection
-// redis.ping()
-//   .then(() => console.log('Connected to Redis...'))
-//   .catch(err => console.log('Redis Error: ' + err));
+redis.ping()
+  .then(() => console.log('Connected to Redis...'))
+  .catch(err => console.log('Redis Error: ' + err));
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
